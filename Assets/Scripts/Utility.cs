@@ -14,7 +14,7 @@ public static class Utility
         return hit.position;
     }
     
-    public static float GedRandomNormalDistribution(float mean, float standard)
+    public static float GetRandomNormalDistribution(float mean, float standard)//정규분포 사용,총반동 세기를 위해 사용 
     {
         var x1 = Random.Range(0f, 1f);
         var x2 = Random.Range(0f, 1f);

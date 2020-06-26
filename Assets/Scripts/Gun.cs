@@ -94,6 +94,7 @@ public class Gun : MonoBehaviour
 
             lastFireTime = Time.time;
             Shot(fireTransform.position, fireDirection);
+            return true;//발사를 할수있는 상황이면 true반환
         }
 
         return false;
@@ -109,6 +110,7 @@ public class Gun : MonoBehaviour
         {
             //상대방의 오브젝트로부터 IDamageable로 이루어져있는지 검사함
             var target = hit.collider.GetComponent<IDamageable>();
+
             if (target != null)
             {
                 DamageMessage damageMessage;//초기화작업
@@ -118,6 +120,10 @@ public class Gun : MonoBehaviour
                 damageMessage.hitNormal = hit.normal;
 
                 target.ApplyDamage(damageMessage);
+            }
+            else
+            {
+                EffectManager.Instance.PlayHitEffect(hit.point, hit.normal, hit.transform);
             }
             hitposition = hit.point;
         }
@@ -180,7 +186,7 @@ public class Gun : MonoBehaviour
     {
         //탄퍼짐이 계속되도 일정량이상은 퍼짐이 안되게 막음
         currentSpread = Mathf.Clamp(currentSpread, 0f, maxSpread);
-        currentSpread 
+        currentSpread
             = Mathf.SmoothDamp(currentSpread, 0f, ref currentSpreadVelocity, 1 / restoreFromRecoilSpeed);
 
     }
